@@ -15,6 +15,41 @@ type SitePreferences = {
 }
 
 const PreferencesContext = createContext<SitePreferences | null>(null)
+const themeListeners = new Set<() => void>()
+let currentTheme: Theme | undefined
+
+function subscribeToTheme(onChange: () => void) {
+  themeListeners.add(onChange)
+  return () => {
+    themeListeners.delete(onChange)
+  }
+}
+
+function getThemeSnapshot(): Theme {
+  if (currentTheme) return currentTheme
+
+  try {
+    currentTheme = window.localStorage.getItem("portfolio-theme") === "light" ? "light" : "dark"
+  } catch (error) {
+    console.error("Gagal memuat preferensi tema.", error)
+    currentTheme = "dark"
+  }
+
+  return currentTheme
+}
+
+function updateTheme(theme: Theme) {
+  currentTheme = theme
+  document.documentElement.dataset.theme = theme
+
+  try {
+    window.localStorage.setItem("portfolio-theme", theme)
+  } catch (error) {
+    console.error("Gagal menyimpan preferensi tema.", error)
+  }
+
+  themeListeners.forEach((onChange) => onChange())
+}
 
 function subscribeToMotionPreference(onChange: () => void) {
   const preference = window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -27,7 +62,7 @@ function getMotionPreference() {
 }
 
 export function SitePreferencesProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark")
+  const theme = useSyncExternalStore<Theme>(subscribeToTheme, getThemeSnapshot, () => "dark")
   const [profileAnimationEnabled, setProfileAnimationEnabled] = useState(true)
   const systemReducedMotion = useSyncExternalStore(subscribeToMotionPreference, getMotionPreference, () => true)
   const profileMotionEnabled = profileAnimationEnabled && !systemReducedMotion
@@ -36,7 +71,7 @@ export function SitePreferencesProvider({ children }: { children: ReactNode }) {
     <PreferencesContext.Provider
       value={{
         theme,
-        setTheme,
+        setTheme: updateTheme,
         profileAnimationEnabled,
         setProfileAnimationEnabled,
         profileMotionEnabled,

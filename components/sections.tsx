@@ -24,13 +24,16 @@ function Reveal({
   stable?: boolean
 }) {
   const { systemReducedMotion } = useSitePreferences()
+  const hiddenState = stable
+    ? { opacity: 0, y: 18, filter: "blur(5px)" }
+    : { opacity: 0, y: 34, scale: 0.97, filter: "blur(8px)" }
 
   return (
     <motion.div
-      initial={systemReducedMotion ? false : stable ? { opacity: 0 } : { opacity: 0, y: 28 }}
-      whileInView={systemReducedMotion ? undefined : stable ? { opacity: 1 } : { opacity: 1, y: 0 }}
-      viewport={{ once: false, margin: stable ? "-68px 0px -80px 0px" : "0px 0px -80px 0px" }}
-      transition={{ duration: stable ? 0.45 : 0.62, delay: systemReducedMotion ? 0 : delay, ease: [0.2, 0.7, 0.2, 1] }}
+      initial={systemReducedMotion ? false : hiddenState}
+      whileInView={systemReducedMotion ? undefined : { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+      viewport={{ once: true, amount: 0.16, margin: "0px 0px -48px 0px" }}
+      transition={{ duration: stable ? 0.55 : 0.75, delay: systemReducedMotion ? 0 : delay, ease: [0.2, 0.7, 0.2, 1] }}
       className={className}
     >
       {children}
@@ -154,9 +157,9 @@ export function Hero() {
             theme={theme}
             themeToggle={false}
             background="#f1f0e8"
-            darkBackground="#111713"
-            textColor={theme === "dark" ? "#edf1e7" : "#19231a"}
-            accentColor={theme === "dark" ? "#c9ee72" : "#476344"}
+            darkBackground="#080808"
+            textColor={theme === "dark" ? "#f2f2f2" : "#19231a"}
+            accentColor={theme === "dark" ? "#d4d4d4" : "#476344"}
             interactive={profileMotionEnabled}
             className="rounded-full"
             height="100%"
@@ -244,9 +247,9 @@ export function Skills() {
         <SectionHeading
           eyebrow="02 / Keahlian"
           title="Desain bertemu teknologi."
-          description="Dua sisi pekerjaan yang saya nikmati—membentuk pengalaman sekaligus membangunnya."
+          description="Keahlian untuk merancang, membangun, dan mendukung kebutuhan dokumen serta desain visual."
         />
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-3">
           {skills.map((skill, index) => (
             <Reveal
               key={skill.name}
@@ -344,10 +347,10 @@ export function Projects() {
           {projects.map((project, index) => (
             <motion.article
               key={project.title}
-              initial={systemReducedMotion ? false : { opacity: 0, y: 42, scale: 0.96 }}
-              whileInView={systemReducedMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+              initial={systemReducedMotion ? false : { opacity: 0, y: 48, scale: 0.95, filter: "blur(10px)" }}
+              whileInView={systemReducedMotion ? undefined : { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
               whileHover={systemReducedMotion ? undefined : { y: -5 }}
-              viewport={{ once: false, margin: "0px 0px -70px 0px" }}
+              viewport={{ once: true, amount: 0.16, margin: "0px 0px -48px 0px" }}
               transition={{
                 duration: 0.72,
                 delay: systemReducedMotion ? 0 : index * 0.13,

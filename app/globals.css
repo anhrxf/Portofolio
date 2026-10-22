@@ -131,14 +131,14 @@
 
 /* Tambahkan ke bawah app/globals.css (setelah direktif Tailwind) */
 :root {
-  --ink: #111713;
-  --paper: #edf1e7;
-  --mute: #a2ad9f;
-  --line: rgba(237, 241, 231, 0.14);
-  --accent: #c9ee72;
-  --panel: #19221b;
+  --ink: #080808;
+  --paper: #f2f2f2;
+  --mute: #a3a3a3;
+  --line: rgba(242, 242, 242, 0.14);
+  --accent: #d4d4d4;
+  --panel: #141414;
 }
-main[data-theme="light"] {
+html[data-theme="light"] {
   --ink: #f1f0e8;
   --paper: #19231a;
   --mute: #657162;
@@ -148,7 +148,7 @@ main[data-theme="light"] {
 }
 main[data-theme] {
   background-color: var(--ink);
-  background-image: radial-gradient(circle at 78% 4%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 28rem);
+  background-image: none;
   color: var(--paper);
   transition: background-color 0.3s ease, color 0.3s ease;
 }

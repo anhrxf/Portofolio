@@ -66,12 +66,17 @@ export const skills = [
   {
     name: "Designer",
     desc: "Merancang antarmuka dan alur pengguna agar mudah dipahami: dari wireframe, prototype, sampai sistem visual yang konsisten.",
-    items: ["UI design", "Wireframing", "Prototyping", "Design system"],
+    items: ["UI design", "Wireframing", "Prototyping", "Design system", "Figma"],
   },
   {
     name: "Web Developer",
     desc: "Membangun website responsif dari desain sampai berjalan di browser, dengan kode yang rapi dan mudah dirawat.",
     items: ["HTML dan CSS", "JavaScript dan TypeScript", "React dan Next.js", "Tailwind CSS"],
+  },
+  {
+    name: "Tools & Produktivitas",
+    desc: "Ahli menggunakan Microsoft Word dan Canva untuk mendukung kebutuhan dokumen dan desain visual.",
+    items: ["Microsoft Word", "Canva"],
   },
 ]
 
